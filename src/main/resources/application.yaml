@@ -1,11 +1,13 @@
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: edu-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # Change this to JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # Change this to JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        # Crucial for security: allow deserializing objects from your package
+        spring.json.trusted.packages: "pro.samarts.apachekafkaedu.dto"
